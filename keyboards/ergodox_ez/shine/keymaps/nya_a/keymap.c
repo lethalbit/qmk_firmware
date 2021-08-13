@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_NYA,  KC_NYA,  KC_NYA,  KC_NYA,  KC_NYA,
                                                  KC_NYA,  KC_NYA,
                                                           KC_NYA,
-                                        KC_LEFT, KC_UP,   KC_NYA,
+                                         KC_UP, KC_DOWN,  KC_NYA,
     /* RIGHT */
     KC_NYA,  KC_CIRC, KC_AMPR, KC_ASTR, KC_NYA,  KC_NYA,  KC_UNDS,
     KC_NYA,  KC_NYA,  KC_LCBR, KC_RCBR, KC_NYA,  KC_NYA,  KC_PIPE,
@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       KC_NYA,  KC_NYA,  KC_NYA,  KC_NYA,  KC_NYA,
     KC_NYA,  KC_NYA,
     KC_NYA,
-    KC_NYA,  KC_DOWN, KC_RGHT
+    KC_NYA,  KC_LEFT, KC_RGHT
   ),
   /* ------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
   [_F] = LAYOUT_ergodox(
