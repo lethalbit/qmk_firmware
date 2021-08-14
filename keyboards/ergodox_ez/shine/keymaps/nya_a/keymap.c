@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		TG(_F),  TG(_N),  KC_RALT, KC_RGUI, KC_RCTL,
 		JP_HENK, JP_KANA,
 		KC_NYA,
-		KC_NYA,  KC_ENT,  KC_SPC
+		KC_NYA,  KC_SPC,  KC_ENT
 	),
 	/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 	[_S] = LAYOUT_ergodox(
