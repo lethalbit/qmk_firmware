@@ -42,8 +42,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[_A] = LAYOUT_ergodox(
 		/* LEFT */
 		KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    OSL(_F),
-		KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    OSL(_S),
-		KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,
+		KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    OSL(_S),
+		KC_TAB,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,
 		KC_LSHF, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_HOME,
 		KC_LCTL, KC_LGUI, KC_LALT, TG(_N),  TG(_F),
 														               JP_ZHTG, JP_MHEN,
@@ -128,6 +128,54 @@ rgblight_config_t rgblight_config;
 bool disable_layer_color = 0;
 
 bool suspended = false;
+
+// Convert colours from degrees and 0-100 sat as is used in most image editors
+// to byte distance around a circle and 0-255 sat
+#define CLR(hue, sat) \
+    { (uint8_t)(hue / 360.0 * 255.0), (uint8_t)(sat / 100.0 * 255.0) }
+#define FLAG_BOTHROWS(i0, i1, i2, i3, i4, i5) \
+    { i2, i1, i0, i0, i1, i2, i3, i4, i5, i5, i4, i3 }
+/**
+ * Set hue to -1 to turn off the LED
+ */
+typedef struct {
+    int16_t hue;
+    uint8_t sat;
+} Colour;
+
+#define NUM_COLOURS 12
+
+#define OFF \
+    { -1, 0 }
+
+typedef Colour ColourPattern[NUM_COLOURS];
+
+ColourPattern colour_patterns[] = {
+	FLAG_BOTHROWS(CLR(197, 100), CLR(348, 100), CLR(0, 0), CLR(0, 0), CLR(348, 100), CLR(197, 100)), /* trans flag */
+	FLAG_BOTHROWS(CLR(13, 100),  CLR(24, 86),   CLR(0, 0), CLR(0, 0), CLR(325, 74),  CLR(324, 100)), /* lesbian flag */
+	FLAG_BOTHROWS(OFF, OFF, OFF, OFF, OFF, OFF),                                                      /* no flag */
+};
+
+
+void set_colour_pattern(uint8_t pattern_idx, uint8_t val, bool is_main) {
+    // overflow check
+    if (pattern_idx >= sizeof(colour_patterns) / sizeof(ColourPattern)) {
+        pattern_idx = 0;
+    }
+    Colour *pattern = colour_patterns[pattern_idx];
+
+    for (uint8_t i = 0; i < NUM_COLOURS; ++i) {
+        Colour col = pattern[i];
+        // turn off colours with -1 hue (sentinel value)
+        if (col.hue == -1) {
+            setrgb(0, 0, 0, &led[i]);
+            continue;
+        }
+
+        sethsv(col.hue, col.sat, val, &led[i]);
+    }
+    rgblight_set();
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	switch (keycode) {
@@ -223,12 +271,12 @@ uint32_t layer_state_set_user(uint32_t state) {
 			case 0: {
 					rgblight_enable_noeeprom();
 					rgblight_mode_noeeprom(1);
-					rgblight_sethsv_noeeprom(183,106,251);
+					set_colour_pattern(1, 255, true);
 				break;
 			} case 1: {
 					rgblight_enable_noeeprom();
 					rgblight_mode_noeeprom(1);
-					rgblight_sethsv_noeeprom(150,171,253);
+					set_colour_pattern(2, 255, true);
 				break;
 			} case 2: {
 					rgblight_enable_noeeprom();
