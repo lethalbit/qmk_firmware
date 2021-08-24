@@ -51,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 															  KC_SPC,  KC_BSPC, MO(_F),
 		/* RIGHT */
 		KC_TILD, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
-		OSL(_S), KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
+		TG(_S), KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
 		KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
 		KC_END , KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_EQL,
 		TG(_F),  TG(_N),  KC_RALT, KC_RGUI, KC_RCTL,
@@ -71,8 +71,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 																				KC_NYA,
 															  KC_NYA,  KC_NYA,  KC_NYA,
 		/* RIGHT */
-		KC_NYA,  KC_CIRC, KC_AMPR, KC_ASTR, KC_NYA,  KC_NYA,  KC_UNDS,
-		KC_NYA,  KC_NYA,  KC_LCBR, KC_RCBR, KC_NYA,  KC_NYA,  KC_PIPE,
+		KC_NYA,  KC_CIRC, KC_AMPR, KC_ASTR, KC_INS,  KC_PGUP, KC_UNDS,
+		KC_NYA,  KC_NYA,  KC_LCBR, KC_RCBR, KC_DEL,  KC_PGDN, KC_PIPE,
 		KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_COLN, KC_DQUO,
 		KC_NYA,  KC_NYA,  KC_NYA,  KC_LT,   KC_GT,   KC_QUES, KC_PLUS,
 		KC_NYA,  KC_NYA,  KC_NYA,  KC_NYA,  KC_NYA,
@@ -133,8 +133,8 @@ bool suspended = false;
 // to byte distance around a circle and 0-255 sat
 #define CLR(hue, sat) \
     { (uint8_t)(hue / 360.0 * 255.0), (uint8_t)(sat / 100.0 * 255.0) }
-#define FLAG_BOTHROWS(i0, i1, i2, i3, i4, i5) \
-    { i2, i1, i0, i0, i1, i2, i3, i4, i5, i5, i4, i3 }
+#define FLAG_BOTHROWS(i0, i1, i2, i3, i4) \
+    { i0, i1, i2, i3, i4, i0, i1, i2, i3, i4, i0, i1, i2, i3, i4 }
 /**
  * Set hue to -1 to turn off the LED
  */
@@ -143,7 +143,7 @@ typedef struct {
     uint8_t sat;
 } Colour;
 
-#define NUM_COLOURS 12
+#define NUM_COLOURS 15
 
 #define OFF \
     { -1, 0 }
@@ -151,9 +151,9 @@ typedef struct {
 typedef Colour ColourPattern[NUM_COLOURS];
 
 ColourPattern colour_patterns[] = {
-	FLAG_BOTHROWS(CLR(197, 100), CLR(348, 100), CLR(0, 0), CLR(0, 0), CLR(348, 100), CLR(197, 100)), /* trans flag */
-	FLAG_BOTHROWS(CLR(13, 100),  CLR(24, 86),   CLR(0, 0), CLR(0, 0), CLR(325, 74),  CLR(324, 100)), /* lesbian flag */
-	FLAG_BOTHROWS(OFF, OFF, OFF, OFF, OFF, OFF),                                                      /* no flag */
+	FLAG_BOTHROWS(CLR(197, 100), CLR(348, 100), CLR(0, 0), CLR(348, 100), CLR(197, 100)), /* trans flag */
+	FLAG_BOTHROWS(CLR(13, 100),  CLR(24, 86),   CLR(0, 0), CLR(325, 74),  CLR(324, 100)), /* lesbian flag */
+	FLAG_BOTHROWS(OFF, OFF, OFF, OFF, OFF),                                               /* no flag */
 };
 
 
